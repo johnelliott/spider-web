@@ -26,3 +26,11 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+
+# Emacs editor temp files
+\#*\#
+.\#*
+*\~
+
+# Redis dump file default
+dump.rdb
