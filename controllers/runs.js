@@ -5,10 +5,10 @@
     
     // save runs to model
     exports.store = function(req, res, next) {
-	var runs = _.clone(req.body);
-	var run = {"message":"hello from the run"}; // arduino poll stub
-	console.log('controller says: '+run);	// REMOVE THIS LATER
-	model.store(run, function(err, data){
+	// save request body in case we need it
+	var reqBody = _.clone(req.body);
+	var runs = [{"message":"hello from the run"}]; // arduino poll stub
+	model.store(runs, function(err, data){
 	    if (err) return res.send(503, err);
 	    next();
 	});
@@ -16,7 +16,6 @@
     
  // remove older runs from model
     exports.trim = function(req, res, next) {
-	console.log('hello from trim middleware');
 	next();
     };
 
