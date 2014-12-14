@@ -8,7 +8,7 @@ var _ = require('underscore');
 exports.store = function(req, res, next) {
     // save request body in case we need it
     var reqBody = _.clone(req.body);
-    var runs = [{"message":"hello from the run"}]; // arduino poll stub
+    var runs = [{"message":"hello from run 1"}, {"message":"hello from the run 2"}]; // arduino poll stub
     model.store(runs, function(err, data){
 	if (err) return res.send(503, err);
 	next();
