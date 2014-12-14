@@ -1,6 +1,7 @@
 /*jslint node: true */
 'use strict';
 
+var config = require('./config');
 var express = require('express');
 var bodyParser = require('body-parser');
 var runs = require ('./controllers/runs');
