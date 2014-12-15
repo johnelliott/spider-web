@@ -10,11 +10,12 @@ var port = process.env.PORT || 8000;
 var sockPort = process.env.SOCKPORT || 8001
 var app = express();
 
-// Sockets
-var axon = require('axon');
-var sock = axon.socket('pub');
-sock.bind(3000);
-console.log('pub server started');
+// Sockets with Axon
+// var axon = require('axon');
+// var sock = axon.socket('pub');
+// sock.bind(3000);
+// console.log('pub server started');
+
 
 // Serial port
 var serialport = require("serialport");
@@ -37,7 +38,7 @@ sp.open(function (error) {
 var hits = [];
 sp.on("data", function (data) {
     hits.push(JSON.parse(data));
-    sock.send(JSON.parse(data));
+    // sock.send(JSON.parse(data)); // Axon send
 });
 
 // expect to receive json and parse if it checks out
