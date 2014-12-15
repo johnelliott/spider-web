@@ -2,13 +2,25 @@
 'use strict';
 
 // App
-var config = require('./config');
 var express = require('express');
 var bodyParser = require('body-parser');
-var runs = require ('./controllers/runs');
-var app = express();
-var port = process.env.PORT || 8000;
 var _ = require('underscore');
+var config = require('./config');
+var port = process.env.PORT || 8000;
+var sockPort = process.env.SOCKPORT || 8001
+var app = express();
+
+// Sockets
+var axon = require('axon');
+var sock = axon.socket('pub');
+
+sock.bind(3000);
+console.log('pub server started');
+
+setInterval(function(){
+    sock.send('hello');
+    console.log(' .');
+}, 500);
 
 // Serial port
 var serialport = require("serialport");
@@ -29,18 +41,20 @@ sp.open(function (error) {
     }
 });
 
+var hits = [];
 sp.on("data", function (data) {
     console.log(data);
+    hits.push(JSON.parse(data));
 });
 
 // expect to receive json and parse if it checks out
 app.use(bodyParser.json());
 
 // routes
-app.get('/', runs.send, function(req, res){
-    res.send('\ndone\n');
+app.get('/', function(req, res){
+    // send the first hit or just send done
+    hits.length ? res.status(200).send(hits.shift()) : res.send('\ndone\n');
 });
-
 
 // Listen on port 8000
 app.listen(port, function(){
