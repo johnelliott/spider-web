@@ -1,18 +1,9 @@
 {
-  "name": "wb-node-test",
-  "version": "1.0.0",
-  "description": "node-express-sockets app for exposing arduino to other apps",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "John Elliott",
-  "license": "",
+  "name": "wb-node",
   "dependencies": {
     "axon": "^2.0.1",
     "body-parser": "^1.10.0",
     "express": "^4.0.0",
-    "redis": "^0.12.1",
     "serialport": "^1.4.9",
     "underscore": "^1.7.0"
   }
