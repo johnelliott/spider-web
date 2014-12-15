@@ -13,26 +13,19 @@ var app = express();
 // Sockets
 var axon = require('axon');
 var sock = axon.socket('pub');
-
 sock.bind(3000);
 console.log('pub server started');
-
-setInterval(function(){
-    sock.send('hello');
-    console.log(' .');
-}, 500);
 
 // Serial port
 var serialport = require("serialport");
 var SerialPort = serialport.SerialPort; // localize object constructor
 var localSerialPort = process.env.LOCALSERIALPORT || '/dev/ttyACM0'; // default to Ras. Pi USB
-
 // Instantiate a serial port
 var sp = new SerialPort(localSerialPort, {
     parser: serialport.parsers.readline("\n"),
     baudrate: 9600
 });
-
+// Open serial connection
 sp.open(function (error) {
     if ( error ) {
     console.log('Failed to open serial port: ' + error);
@@ -40,11 +33,11 @@ sp.open(function (error) {
     console.log('Serial port open: ' + sp.path);
     }
 });
-
+// Create data structure
 var hits = [];
 sp.on("data", function (data) {
-    console.log(data);
     hits.push(JSON.parse(data));
+    sock.send(JSON.parse(data));
 });
 
 // expect to receive json and parse if it checks out
