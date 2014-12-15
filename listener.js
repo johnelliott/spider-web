@@ -1,3 +1,4 @@
+//axon
 // var axon = require('axon');
 // var sock = axon.socket('sub');
 
@@ -7,4 +8,10 @@
 //     console.log(JSON.stringify(msg));
 // });
 
+//faye
+var faye = require('faye');
+var client = new faye.Client('http://localhost:3001/hits');
+var subscription = client.subscribe('/hits', function(message) {
+    console.log(message);
+});
 

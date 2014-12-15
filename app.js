@@ -16,6 +16,21 @@ var app = express();
 // sock.bind(3000);
 // console.log('pub server started');
 
+// Sockets with Faye
+var http = require('http'),
+    faye = require('faye');
+
+var bayeux = new faye.NodeAdapter({mount: '/hits', timeout: 45});
+
+// Handle non-Bayeux requests
+var server = http.createServer(function(request, response) {
+  response.writeHead(200, {'Content-Type': 'text/plain'});
+  response.end("Hello, non-Bayeux request\n");
+});
+
+bayeux.attach(server);
+server.listen(3001);
+console.log('Faye listening on port 3001');
 
 // Serial port
 var serialport = require("serialport");
@@ -37,7 +52,10 @@ sp.open(function (error) {
 // Create data structure
 var hits = [];
 sp.on("data", function (data) {
-    hits.push(JSON.parse(data));
+    console.log("Node local: " + data);
+    hits.push(data);
+    // Send data via faye
+    bayeux.getClient().publish('/hits', data);
     // sock.send(JSON.parse(data)); // Axon send
 });
 
@@ -52,5 +70,7 @@ app.get('/', function(req, res){
 
 // Listen on port 8000
 app.listen(port, function(){
-    console.log("listening on port %d", port);
+    console.log("Express listening on port %d", port);
 });
+
+

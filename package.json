@@ -4,6 +4,7 @@
     "axon": "^2.0.1",
     "body-parser": "^1.10.0",
     "express": "^4.0.0",
+    "faye": "^1.0.3",
     "serialport": "^1.4.9",
     "socket.io": "^1.2.1",
     "underscore": "^1.7.0"
