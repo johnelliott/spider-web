@@ -17,6 +17,6 @@ app.listen(port, function(){
 app.use(bodyParser.json());
 
 // routes
-app.get('/', runs.store, runs.trim, runs.send, function(req, res){
+app.get('/', runs.get, function(req, res){
     res.send('\ndone\n');
 });
