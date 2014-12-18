@@ -24,9 +24,11 @@ server.listen(3001);
 console.log('Faye listening on port 3001');
 
 var faketime =0;
+var interval = 2200;
 setInterval(function(){
-    faketime += 1.2;
+
+    faketime += 2;
     var message = '{"time":' + Math.floor(faketime) + ',"speed":' + Math.floor(Math.random()*30) + '}';
-    console.log("Node local: " + message);
+    console.log("Talker: " + message);
     bayeux.getClient().publish('/hits', message);
-}, 1200);
+}, interval);
