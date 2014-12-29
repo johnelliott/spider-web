@@ -1,5 +1,6 @@
 // jslint
 'use strict';
+var os = require('os');
 
 process.env.PORT = 8000;
 process.env.SOCKPORT = 3000;
