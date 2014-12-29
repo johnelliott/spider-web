@@ -72,5 +72,3 @@ app.get('/', function(req, res){
 app.listen(port, function(){
     console.log("Express listening on port %d", port);
 });
-
-
