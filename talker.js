@@ -24,7 +24,7 @@ server.listen(3001);
 console.log('Faye listening on port 3001');
 
 var faketime =0;
-var interval = 2200;
+var interval = 1750;
 setInterval(function(){
 
     faketime += 2;
