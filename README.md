@@ -11,9 +11,9 @@ Add an optional API to [Waybot](https://github.com/johnelliott/Waybot) counters 
 - get this repository on your local machine
 - npm install
 - set a serial port in config.js
-- Connect Waybot Counter or serial data source sending strings like this: {"time":472,"speed":15}
-- Start app.js by typing '$ node app'
+- connect Waybot Counter or serial data source sending strings like this: {"time":472,"speed":15}
+- start app.js by typing '$ node app'
 
-If desired, run '$ Talker.js' to mock a counter spitting out fake data.
+If desired, run '$ node talker.js' to mock a counter spitting out fake data.
 
 If you want help setting up something similar, create an [issue](https://github.com/johnelliott/Waybot/issues) and I will get in touch.
