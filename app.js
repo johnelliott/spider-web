@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var _ = require('underscore');
 var config = require('./config');
 var port = process.env.PORT || 8000;
-var sockPort = process.env.SOCKPORT || 8001
+var sockPort = process.env.SOCKPORT || 8001;
 var app = express();
 
 // Sockets with Axon

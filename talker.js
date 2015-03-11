@@ -5,7 +5,7 @@
 var bodyParser = require('body-parser');
 var _ = require('underscore');
 var config = require('./config');
-var sockPort = process.env.SOCKPORT || 8001
+var sockPort = process.env.SOCKPORT || 8001;
 
 // Sockets with Faye
 var http = require('http');

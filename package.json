@@ -8,5 +8,10 @@
     "serialport": "^1.4.9",
     "socket.io": "^1.2.1",
     "underscore": "^1.7.0"
+  },
+  "scripts": {
+      "start": "node app.js",
+      "listener": "node listener.js",
+      "demo": "node talker.js"
   }
 }
