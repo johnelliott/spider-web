@@ -1,17 +1,14 @@
 {
   "name": "wb-node",
   "dependencies": {
-    "axon": "^2.0.1",
-    "body-parser": "^1.10.0",
-    "express": "^4.0.0",
-    "faye": "^1.0.3",
-    "serialport": "^1.4.9",
-    "socket.io": "^1.2.1",
-    "underscore": "^1.7.0"
+    "faye": "^1.1.1",
+    "serialport": "^1.6.3",
+    "underscore": "^1.8.3"
   },
   "scripts": {
-      "start": "node app.js",
-      "listener": "node listener.js",
-      "demo": "node talker.js"
-  }
+    "start": "node app.js",
+    "listener": "node listener.js",
+    "demo": "node talker.js"
+  },
+  "repository": "https://github.com/johnelliott/Waybot-node"
 }

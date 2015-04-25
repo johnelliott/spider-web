@@ -34,3 +34,6 @@ node_modules
 
 # Redis dump file default
 dump.rdb
+
+# node version manager
+\.nvmrc

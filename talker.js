@@ -1,9 +1,6 @@
 /*jslint node: true */
-'use strict';
 
 // App
-var bodyParser = require('body-parser');
-var _ = require('underscore');
 var config = require('./config');
 var sockPort = process.env.SOCKPORT || 8001;
 
@@ -20,10 +17,10 @@ var server = http.createServer(function(request, response) {
 });
 
 bayeux.attach(server);
-server.listen(3001);
-console.log('Faye listening on port 3001');
+server.listen(process.env.LISTENERPORT);
+console.log('Faye listening on port ' + process.env.LISTENERPORT);
 
-var faketime =0;
+var faketime = 0;
 var interval = 1750;
 setInterval(function(){
 
