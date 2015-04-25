@@ -7,8 +7,8 @@
   },
   "scripts": {
     "start": "node app.js",
-    "listener": "node listener.js",
-    "demo": "node talker.js"
+    "demo-listen": "node listener.js",
+    "demo-talk": "node talker.js"
   },
   "repository": "https://github.com/johnelliott/Waybot-node"
 }
