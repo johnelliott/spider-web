@@ -1,13 +1,15 @@
 {
   "name": "wb-node",
   "dependencies": {
+    "koa": "^0.20.0",
+    "koa-static": "^1.4.9",
     "serialport": "^1.6.3",
     "socket.io": "^1.3.5"
   },
   "scripts": {
     "start": "node --harmony app.js",
-    "test": "./node_modules/.bin/mocha test/index.js",
-    "tw": "./node_modules/.bin/mocha -w test/index.js",
+    "test": "./node_modules/.bin/mocha --harmony test/index.js",
+    "tw": "./node_modules/.bin/mocha -w --harmony test/index.js",
     "demo-listen": "node listener.js",
     "demo-talk": "node talker.js"
   },

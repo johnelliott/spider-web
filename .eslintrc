@@ -1,0 +1,35 @@
+
+{
+    env: {
+        node: true,
+        mocha: true,
+        es6: true
+    },
+    globals: {
+        require: true
+    },
+    rules: {
+        brace-style: [2, stroustrup, { allowSingleLine: false }],
+        default-case: true,
+        indent: [2, tab, {indentSwitchCase: true}],
+        no-catch-shadow: true,
+        no-eq-null: true,
+        no-floating-decimal: true,
+        no-inline-comments: true,
+        no-nested-ternary: true,
+        no-param-reassign: true,
+        no-reserved-keys: true,
+        no-self-compare: true,
+        no-throw-literal: true,
+        no-undefined: true,
+        no-void: true,
+        quotes: [1, double],
+        space-after-keywords: always,
+        space-after-blocks: always,
+        strict: [2, never],
+        wrap-iife: [2, outside]
+    },
+    plugins: [
+
+    ]
+}

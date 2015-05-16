@@ -1,4 +1,3 @@
-// jslint
 var os = require('os');
 
 process.env.PORT = 8000;
