@@ -9,7 +9,6 @@ var sockPort = process.env.SOCKPORT || 8001;
 var localSerialPort = process.env.LOCALSERIALPORT || "/dev/ttyACM0"; // default to Ras. Pi USB
 
 // koa server
-var app
 var app = koa();
 // logger
 app.use(function*(next) {
