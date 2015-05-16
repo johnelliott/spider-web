@@ -1,25 +1,37 @@
 /*jslint node: true */
 
-// Dependencies
 var http = require('http');
-var faye = require('faye');
-var serialport = require("serialport");
-// Environment
+var SocketServer = require('socket.io');
+// env
 var config = require('./config');
 var port = process.env.PORT || 8000;
 var sockPort = process.env.SOCKPORT || 8001;
-var localSerialPort = process.env.LOCALSERIALPORT || '/dev/ttyACM0'; // default to Ras. Pi USB
 
-// Handle non-Bayeux requests
+// http server
 var server = http.createServer(function(request, response) {
   response.writeHead(200, {'Content-Type': 'text/plain'});
-  response.end("Hello, non-Bayeux request\n");
+  response.end("Hello HTTP\n");
 });
-// Set up sockets server
-var bayeux = new faye.NodeAdapter({mount: '/hits', timeout: 45});
-bayeux.attach(server);
-server.listen(process.env.LISTENERPORT);
-console.log('Faye listening on port ' + process.env.LISTENERPORT);
+
+// Socket.io sockets server
+var socketServer = new SocketServer(server);
+// socketServer(server);
+
+socketServer.on('connection', function(socket){
+  socket.on('hit', function(data){
+    console.log("socket hit event", data);
+  });
+  socket.on('disconnect', function(){
+    console.log("socket disconnect event");
+  });
+});
+
+// modules
+// var counter = require("./lib/serial");
+
+// serial port
+var serialport = require("serialport");
+var localSerialPort = process.env.LOCALSERIALPORT || '/dev/ttyACM0'; // default to Ras. Pi USB
 
 // Create a serial port
 var sp = new serialport.SerialPort(localSerialPort, {
@@ -27,16 +39,16 @@ var sp = new serialport.SerialPort(localSerialPort, {
     baudrate: 9600
 });
 // Open serial connection
-sp.open(function (error) {
-    if ( error ) {
-    console.log('Failed to open serial port: ' + error);
+sp.open(function (err) {
+    if(err) {
+        console.log('Failed to open serial port', err);
     }
     else {
-    console.log('Serial port open: ' + sp.path);
+        console.log('Serial port open', sp.path);
     }
 });
-// Publish serial data
-sp.on("data", function (data) {
-    console.log("Faye publish: " + data);
-    bayeux.getClient().publish('/hits', data);
+
+sp.on("data", function(data) {
+    console.log("serial port data", data);
+    socketServer.emit("hit", data);
 });
