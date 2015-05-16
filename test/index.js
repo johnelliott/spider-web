@@ -16,14 +16,15 @@ describe("Server", function() {
 			if(err) {
 				throw new Error(err);
 			}
-			body.should.equal("Hello world from index.html");
+			body.should.be.type("string");
+			body.search(/this/).should.be.type("number");
 			done();
 		});
 	});
 });
 
 describe.skip("Sockets server", function() {
-	var app = require("../app.js");
+	require("../app.js");
 	it("should respond to socket requests", function() {
 	   // TODO
 	});
