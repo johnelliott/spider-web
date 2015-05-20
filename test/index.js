@@ -10,7 +10,7 @@ describe("Serial", function() {
 });
 
 describe("Server", function() {
-	require("../app.js");
+	var app = require("../app.js");
 	it("should respond to http GET requests", function(done) {
 		request.get("http://localhost:8000/", function(err, res, body) {
 			if(err) {
@@ -23,9 +23,12 @@ describe("Server", function() {
 	});
 });
 
-describe.skip("Sockets server", function() {
+describe.only("Sockets server", function() {
 	require("../app.js");
+	// require socket.io-client
+	var io = require("socket.io-client");
 	it("should respond to socket requests", function() {
-	   // TODO
+	   // TODO connect to a client
+	   // io("localhost:8000/")
 	});
 });

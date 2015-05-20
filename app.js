@@ -21,9 +21,12 @@ app.use(function*(next) {
 app.use(server("./public", {}));
 // response
 app.use(function*() {
-  this.body = "Hello world from app";
+	this.body = "Hello world from app";
 });
-app.listen(port);
+
+if (require.main === module) {
+	app.listen(port);
+}
 
 // Socket.io sockets server
 var socketServer = new SocketServer(app);
