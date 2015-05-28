@@ -1,5 +1,5 @@
 var SocketServer = require("socket.io");
-var sp = require("./lib/serial");
+var Counter = require("./lib/serial");
 var koa = require("koa");
 var server = require("koa-static");
 // env
@@ -11,13 +11,15 @@ var localSerialPort = process.env.LOCALSERIALPORT
 
 // koa server
 var app = koa();
+
 // logger
-// app.use(function*(next) {
-//   var start = new Date;
-//   yield next;
-//   var ms = new Date - start;
-//   console.log("%s %s - %s", this.method, this.url, ms);
-// });
+app.use(function*(next) {
+  var start = new Date;
+  yield next;
+  var ms = new Date - start;
+  console.log("%s %s - %s", this.method, this.url, ms);
+});
+
 // static files
 app.use(server("./public", {}));
 // response
@@ -38,19 +40,12 @@ app.socketServer.on("connection", function(socket){
 });
 
 try {
-	var counter = sp.connect(localSerialPort);
-	counter.on("open", function() {
-		console.log("serial port open");
-		counter.on("data", function(data) {
-			console.log("serial port data", data);
-			// TODO make this a module 
-			// that runs this line below as a callback
-			app.socketServer.emit("hit", data);
-		});
+	var counter = new Counter(localSerialPort, function(data) {
+		app.socketServer.emit("hit", data);
 	});
 }
 catch(err) {
-	console.log("error connecting to", localSerialPort, err);
+	console.log("error connecting to counter on", localSerialPort, err);
 }
 
 if (require.main === module) {

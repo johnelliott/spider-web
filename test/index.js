@@ -4,8 +4,8 @@ require("./index");
 
 describe("Serial", function() {
 	var serial = require("../lib/serial");
-	it("should return a connect function", function() {
-		serial.connect.should.be.type("function");
+	it("should return a function", function() {
+		serial.should.be.type("function");
 	});
 });
 
