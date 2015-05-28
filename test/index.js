@@ -23,12 +23,21 @@ describe("Server", function() {
 	});
 });
 
-describe.only("Sockets server", function() {
-	require("../app.js");
+describe("Sockets server", function() {
+	// bring in app and start it
+	var app = require("../app.js");
+	app.listen(8000);
+	app.socketServer.listen(3000);
+
 	// require socket.io-client
-	var io = require("socket.io-client");
-	it("should respond to socket requests", function() {
-	   // TODO connect to a client
-	   // io("localhost:8000/")
+	var SocketClient = require("socket.io-client");
+
+	it("should create a socket server to connect to", function(done) {
+		var client = new SocketClient("http://localhost:3000/");
+		client.on("connect", function() {
+			done();
+		});
 	});
+	// TODO do another test with this
+	// app.socketServer.emit("hit", {message: "hello mocha"});
 });
