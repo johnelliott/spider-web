@@ -12,13 +12,13 @@ var localSerialPort = process.env.LOCALSERIALPORT
 // koa server
 var app = koa();
 
-// logger
-app.use(function*(next) {
-  var start = new Date;
-  yield next;
-  var ms = new Date - start;
-  console.log("%s %s - %s", this.method, this.url, ms);
-});
+// // logger
+// app.use(function*(next) {
+//   var start = new Date;
+//   yield next;
+//   var ms = new Date - start;
+//   console.log("%s %s - %s", this.method, this.url, ms);
+// });
 
 // static files
 app.use(server("./public", {}));
@@ -31,9 +31,6 @@ app.use(function*() {
 app.socketServer = new SocketServer(app);
 app.socketServer.on("connection", function(socket){
 	console.log("something connected to app.socketServer");
-	socket.on("hit", function(data){
-		console.log("socket hit", data);
-	});
 	socket.on("disconnect", function(){
 		console.log("socket disconnect");
 	});
@@ -41,8 +38,16 @@ app.socketServer.on("connection", function(socket){
 
 try {
 	var counter = new Counter(localSerialPort, function(data) {
+		console.log("socket hit", data);
 		app.socketServer.emit("hit", data);
 	});
+	console.log("counter", counter);
+	if(!counter.isOpen()) {
+		console.log("No counter connected");
+		setInterval(function() {
+			app.socketServer.emit("hit", "No counter connected " + new Date);
+		}, 750);
+	}
 }
 catch(err) {
 	console.log("error connecting to counter on", localSerialPort, err);
@@ -50,7 +55,7 @@ catch(err) {
 
 if (require.main === module) {
 	app.listen(port);
-	// app.socketServer.listen(sockPort);
+	app.socketServer.listen(sockPort);
 }
 else {
 	module.exports = app;
