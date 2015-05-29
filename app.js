@@ -41,11 +41,10 @@ try {
 		console.log("socket hit", data);
 		app.socketServer.emit("hit", data);
 	});
-	console.log("counter", counter);
 	if(!counter.isOpen()) {
 		console.log("No counter connected");
 		setInterval(function() {
-			app.socketServer.emit("hit", "No counter connected " + new Date);
+			app.socketServer.emit("hit", "No counter connected " + new Date());
 		}, 750);
 	}
 }
