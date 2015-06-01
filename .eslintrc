@@ -6,7 +6,8 @@
         es6: true
     },
     globals: {
-        require: true
+        require: true,
+        "React": true
     },
     rules: {
         brace-style: [2, stroustrup, { allowSingleLine: false }],
@@ -29,7 +30,13 @@
         strict: [2, never],
         wrap-iife: [2, outside]
     },
-    plugins: [
-
+    "ecmaFeatures": {
+        "modules": true,
+        "blockBindings": true,
+        "forOf": true,
+        "jsx": true
+    },
+    "plugins": [
+        "react"
     ]
 }

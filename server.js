@@ -21,7 +21,7 @@ var app = koa();
 // });
 
 // static files
-app.use(server("./public", {}));
+app.use(server("./app/public", {}));
 // response
 app.use(function*() {
 	this.body = "Hello world from app";
