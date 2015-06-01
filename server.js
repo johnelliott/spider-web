@@ -24,7 +24,7 @@ var app = koa();
 app.use(server("./app/public", {}));
 // response
 app.use(function*() {
-	this.body = "Hello world from app";
+	this.body = "Hello world from koa app server";
 });
 
 // Socket.io sockets server
@@ -44,7 +44,7 @@ try {
 	if(!counter.isOpen()) {
 		console.log("No counter connected");
 		setInterval(function() {
-			app.socketServer.emit("hit", "No counter connected " + new Date());
+			app.socketServer.emit("hit", "No counter connected @" + new Date());
 		}, 750);
 	}
 }
