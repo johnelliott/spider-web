@@ -14,26 +14,11 @@ export default class DroneController extends React.Component {
 		socket.on("connect", function() {
 			this.keyboard = new Keypress.Listener();
 			this.keyboard.register_many([
-				{ keys: "w", on_keydown: function() {
-						socket.emit("up");
-						console.log("key w");
-					}
-				},
-				{ keys: "s", on_keydown: function() {
-						socket.emit("down");
-						console.log("key s");
-					}
-				},
-				{ keys: "j", on_keydown: function() {
-						socket.emit("fly");
-						console.log("key j");
-					}
-				},
-				{ keys: "k", on_keydown: function() {
-						socket.emit("land");
-						console.log("key k");
-					 }
-				}
+				{keys: "w", on_keyup: function() {socket.emit("forward")}},
+				{keys: "s", on_keyup: function() {socket.emit("back")}},
+				{keys: "a", on_keyup: function() {socket.emit("left")}},
+				{keys: "d", on_keyup: function() {socket.emit("right")}},
+				{keys: "f", on_keyup: function() {socket.emit("fly")}}
 			]);
 			this.keyboard.listen();
 		});
