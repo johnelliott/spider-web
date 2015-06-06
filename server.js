@@ -1,6 +1,8 @@
 var SocketServer = require("socket.io");
 var Counter = require("./lib/serial");
 var Drone = require("./lib/drone");
+var RollingSpider = require("rolling-spider");
+
 
 var koa = require("koa");
 var server = require("koa-static");
@@ -33,15 +35,42 @@ app.use(function*() {
 app.socketServer = new SocketServer(app);
 app.socketServer.on("connection", function(socket){
 	console.log("something connected to app.socketServer");
+	var drone = new Drone("RS_B181299");
 	socket.on("disconnect", function(){
 		console.log("socket disconnect");
+		drone.land();
 	});
-	try {
-		var drone = new Drone("RS_B181299", socket);
-	}
-	catch(err) {
-		console.log("error with drone");
-	}
+	drone.connect();
+	drone.signal();
+
+	socket.on("fly", function() {
+		drone.fly();
+		app.socketServer.emit("data", "fly received");
+	});
+	socket.on("up", function() {
+		drone.up();
+		app.socketServer.emit("data", "up received");
+	});
+	socket.on("down", function() {
+		drone.down();
+		app.socketServer.emit("data", "down received");
+	});
+	socket.on("forward", function() {
+		drone.forward();
+		app.socketServer.emit("data", "forward received");
+	});
+	socket.on("back", function() {
+		drone.back();
+		app.socketServer.emit("data", "back received");
+	});
+	socket.on("left", function() {
+		drone.left();
+		app.socketServer.emit("data", "left received");
+	});
+	socket.on("right", function() {
+		drone.right();
+		app.socketServer.emit("data", "right received");
+	});
 });
 
 try {
