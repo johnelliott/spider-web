@@ -1,18 +1,18 @@
-var alt = require("../alt");
-var LocationActions = require("../actions/LocationActions");
+var alt = require('../alt');
+var CommandActions = require('../actions/CommandActions');
 
-class LocationStore {
+class CommandStore {
   constructor() {
-    this.locations = [];
+    this.commands = [];
 
     this.bindListeners({
-      handleUpdateLocations: LocationActions.UPDATE_LOCATIONS
+      handleUpdateCommands: CommandActions.UPDATE_COMMANDS
     });
   }
 
-  handleUpdateLocations(locations) {
-    this.locations = locations;
+  handleUpdateCommands(command) {
+    this.commands.push(command);
   }
 }
 
-module.exports = alt.createStore(LocationStore, "LocationStore");
+module.exports = alt.createStore(CommandStore, 'CommandStore');
