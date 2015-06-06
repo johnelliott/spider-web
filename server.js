@@ -1,5 +1,7 @@
 var SocketServer = require("socket.io");
 var Counter = require("./lib/serial");
+var Drone = require("./lib/drone");
+
 var koa = require("koa");
 var server = require("koa-static");
 // env
@@ -34,6 +36,12 @@ app.socketServer.on("connection", function(socket){
 	socket.on("disconnect", function(){
 		console.log("socket disconnect");
 	});
+	try {
+		var drone = new Drone("RS_B181299", socket);
+	}
+	catch(err) {
+		console.log("error with drone");
+	}
 });
 
 try {

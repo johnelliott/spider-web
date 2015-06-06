@@ -1,7 +1,6 @@
-// var Alt = require("./alt.js");
-var CounterView = require("./components/counter.js");
+var DroneController = require("./components/drone-controller");
 
 React.render(
-    <CounterView />,
+    <DroneController />,
     document.getElementById("app")
 );
