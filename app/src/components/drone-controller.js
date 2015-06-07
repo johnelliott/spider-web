@@ -3,6 +3,12 @@ var Keypress = require("keypress.js");
 var CommandStore = require("../stores/store");
 var CommandActions = require("../actions/CommandActions");
 
+var mui = require('material-ui');
+var ThemeManager = new mui.Styles.ThemeManager();
+
+var DroneControlBar = require("../components/drone-control-bar");
+var DroneCommandView = require("../components/drone-command-view");
+
 export default class DroneController extends React.Component {
 	constructor(props) {
 		super(props);
@@ -12,6 +18,11 @@ export default class DroneController extends React.Component {
 		this.state = {
 			message: "Drone Server",
 			commands: []
+		};
+	}
+	getChildContext() {
+		return {
+			muiTheme: ThemeManager.getCurrentTheme()
 		};
 	}
 	getInitialState() {
@@ -57,14 +68,15 @@ export default class DroneController extends React.Component {
 	}
 	render() {
 		return (
-			<ul>
-				<li>{this.state.message}</li>
-				{this.state.commands.map((command) => {
-					return (
-						<li>{command}</li>
-					);
-				})}
-			</ul>
+			<div>
+				<DroneCommandView message="commands" commands={this.state.commands.slice(-7)} />
+				<DroneControlBar message="Controller" speed={50} steps={10} />
+			</div>
 		);
 	}
 }
+
+// do this stupid thing for the material ui thing
+DroneController.childContextTypes = {
+  muiTheme: React.PropTypes.object
+};

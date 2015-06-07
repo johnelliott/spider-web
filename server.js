@@ -103,6 +103,7 @@ drones.on("connection", function(socket){
 if (require.main === module) {
 	app.listen(port);
 	app.socketServer.listen(sockPort);
+	console.log("server listening on port", port);
 }
 else {
 	module.exports = app;
