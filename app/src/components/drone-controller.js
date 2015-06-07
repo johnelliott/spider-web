@@ -3,11 +3,12 @@ var Keypress = require("keypress.js");
 var DroneStore = require("../stores/store");
 var DroneActions = require("../actions/drone-actions");
 
-var mui = require('material-ui');
+var mui = require("material-ui");
 var ThemeManager = new mui.Styles.ThemeManager();
 
-var DroneControlBar = require("../components/drone-control-bar");
+var DroneInfoBar = require("../components/drone-info-bar");
 var DroneCommandView = require("../components/drone-command-view");
+var DroneControlBar = require("../components/drone-control-bar");
 
 export default class DroneController extends React.Component {
 	constructor(props) {
@@ -15,19 +16,12 @@ export default class DroneController extends React.Component {
 		// there is no auto-binding:
 		// https://medium.com/@goatslacker/react-0-13-x-and-autobinding-b4906189425d
 		this.onChange = this.onChange.bind(this);
-		this.state = {
-			message: "Drone Server",
-			flightOptions: {},
-			commands: []
-		};
+		this.state = DroneStore.getState();
 	}
 	getChildContext() {
 		return {
 			muiTheme: ThemeManager.getCurrentTheme()
 		};
-	}
-	getInitialState() {
-		return DroneStore.getState();
 	}
 	onChange(state) {
 		this.setState(state);
@@ -65,17 +59,24 @@ export default class DroneController extends React.Component {
 			DroneActions.updateCommands(data);
 		});
 		socket.on("data", function(data) {
-			DroneActions.updateFlightOptions(data);
+			DroneActions.updateDroneData(data);
 		});
 	}
 	componentWillUnmount() {
 		DroneStore.unlisten(this.onChange);
 	}
 	render() {
+		console.log("could be rendering uuid:", this.state.uuid);
 		return (
 			<div>
-				<DroneCommandView message="commands" commands={this.state.commands.slice(-7)} />
-				<DroneControlBar message="Controller" speed={this.state.flightOptions.speed} steps={this.state.flightOptions.steps} />
+				<DroneInfoBar title={this.state.uuid} />
+				<DroneCommandView message="commands"
+					commands={this.state.commands.slice(-7)} />
+				<DroneControlBar
+					title={"Battery " + this.state.status.battery + "%"}
+					flying={this.state.status.flying}
+					speed={this.state.flightOptions.speed}
+					steps={this.state.flightOptions.steps} />
 			</div>
 		);
 	}

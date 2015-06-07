@@ -41,7 +41,14 @@ drones.on("connection", function(socket){
 	drone.connect();
 	drone.signal();
 	// tell client about current flight settings
-	drones.emit("data", drone.flightOptions);
+	drones.emit("data", {
+		// TODO: get UUID from an actual drone rather than what we use to
+		// connect to is
+		uuid: droneUUID,
+		status: drone.status,
+		flightOptions: drone.flightOptions,
+	});
+	console.log('drone status', drone.status)
 
 	// provide feedback to the front-end that commands came in
 	socket.on("fly", function() {

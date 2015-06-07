@@ -4,8 +4,8 @@ class CommandActions {
   updateCommands(commands) {
     this.dispatch(commands);
   }
-  updateFlightOptions(flightOptions) {
-    this.dispatch(flightOptions);
+  updateDroneData(data) {
+    this.dispatch(data);
   }
 }
 
