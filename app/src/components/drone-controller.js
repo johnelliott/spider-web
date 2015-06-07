@@ -1,7 +1,7 @@
 var io = require("socket.io-client/socket.io");
 var Keypress = require("keypress.js");
-var CommandStore = require("../stores/store");
-var CommandActions = require("../actions/CommandActions");
+var DroneStore = require("../stores/store");
+var DroneActions = require("../actions/drone-actions");
 
 var mui = require('material-ui');
 var ThemeManager = new mui.Styles.ThemeManager();
@@ -17,6 +17,7 @@ export default class DroneController extends React.Component {
 		this.onChange = this.onChange.bind(this);
 		this.state = {
 			message: "Drone Server",
+			flightOptions: {},
 			commands: []
 		};
 	}
@@ -26,14 +27,15 @@ export default class DroneController extends React.Component {
 		};
 	}
 	getInitialState() {
-		return CommandStore.getState();
+		return DroneStore.getState();
 	}
 	onChange(state) {
 		this.setState(state);
+		console.log("flux state:", this.state)
 	}
 	componentDidMount() {
 		console.log("hello componentDidMount");
-		CommandStore.listen(this.onChange);
+		DroneStore.listen(this.onChange);
 		var socket = io("http://localhost:3000/drones");
 		socket.on("connect", function() {
 			this.keyboard = new Keypress.Listener();
@@ -60,17 +62,20 @@ export default class DroneController extends React.Component {
 			this.keyboard.listen();
 		});
 		socket.on("command", function(data) {
-			CommandActions.updateCommands(data);
+			DroneActions.updateCommands(data);
+		});
+		socket.on("data", function(data) {
+			DroneActions.updateFlightOptions(data);
 		});
 	}
 	componentWillUnmount() {
-		CommandStore.unlisten(this.onChange);
+		DroneStore.unlisten(this.onChange);
 	}
 	render() {
 		return (
 			<div>
 				<DroneCommandView message="commands" commands={this.state.commands.slice(-7)} />
-				<DroneControlBar message="Controller" speed={50} steps={10} />
+				<DroneControlBar message="Controller" speed={this.state.flightOptions.speed} steps={this.state.flightOptions.steps} />
 			</div>
 		);
 	}

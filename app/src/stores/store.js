@@ -1,18 +1,24 @@
 var alt = require('../alt');
-var CommandActions = require('../actions/CommandActions');
+var DroneActions = require('../actions/drone-actions');
 
-class CommandStore {
+class DroneStore {
   constructor() {
     this.commands = [];
+    this.flightOptions = {};
 
     this.bindListeners({
-      handleUpdateCommands: CommandActions.UPDATE_COMMANDS
+      handleUpdateCommands: DroneActions.UPDATE_COMMANDS,
+      handleUpdateFlightOptions: DroneActions.UPDATE_FLIGHT_OPTIONS
     });
   }
 
   handleUpdateCommands(command) {
     this.commands.push(command);
   }
+  handleUpdateFlightOptions(options) {
+    this.flightOptions = options;
+  }
 }
 
-module.exports = alt.createStore(CommandStore, 'CommandStore');
+
+module.exports = alt.createStore(DroneStore, 'DroneStore');

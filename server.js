@@ -40,6 +40,8 @@ drones.on("connection", function(socket){
 	});
 	drone.connect();
 	drone.signal();
+	// tell client about current flight settings
+	drones.emit("data", drone.flightOptions);
 
 	// provide feedback to the front-end that commands came in
 	socket.on("fly", function() {
@@ -49,18 +51,22 @@ drones.on("connection", function(socket){
 	socket.on("faster", function() {
 		drone.faster();
 		drones.emit("command", "faster received");
+		drones.emit("data", drone.flightOptions);
 	});
 	socket.on("slower", function() {
 		drone.slower();
 		drones.emit("command", "slower received");
+		drones.emit("data", drone.flightOptions);
 	});
 	socket.on("longer", function() {
 		drone.longer();
 		drones.emit("command", "longer received");
+		drones.emit("data", drone.flightOptions);
 	});
 	socket.on("shorter", function() {
 		drone.shorter();
 		drones.emit("command", "shorter received");
+		drones.emit("data", drone.flightOptions);
 	});
 	socket.on("turnRight", function() {
 		drone.turnRight();
