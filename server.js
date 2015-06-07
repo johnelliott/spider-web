@@ -34,19 +34,30 @@ var drones = app.socketServer.of("/drones");
 drones.on("connection", function(socket){
 	console.log("something connected to /drones");
 	var drone = new Drone(droneUUID);
+	// poll drone every few seconds and send signal updates
+	var droneSignalPoller = setInterval(drone.signalStrength, 7*1000, function(err, rssi) {
+		if(err) {
+			return err;
+		}
+		// emit drone data update on the callback exec
+		else {
+			console.log("polled RSSI about to emit", rssi);
+			drones.emit("data", {signalStrength: rssi});
+		}
+	});
 	socket.on("disconnect", function(){
 		console.log("socket disconnect");
+		// kill the signal polling timer on drone disconnect
+		clearInterval(droneSignalPoller);
 		drone.land();
 	});
 	drone.connect();
-	drone.signal();
-	// tell client about current flight settings
 	drones.emit("data", {
 		// TODO: get UUID from an actual drone rather than what we use to
 		// connect to is
 		uuid: droneUUID,
 		status: drone.status,
-		flightOptions: drone.flightOptions,
+		flightOptions: drone.flightOptions
 	});
 	console.log('drone status', drone.status)
 
@@ -58,22 +69,22 @@ drones.on("connection", function(socket){
 	socket.on("faster", function() {
 		drone.faster();
 		drones.emit("command", "faster received");
-		drones.emit("data", drone.flightOptions);
+		drones.emit("data", {flightOptions: drone.flightOptions});
 	});
 	socket.on("slower", function() {
 		drone.slower();
 		drones.emit("command", "slower received");
-		drones.emit("data", drone.flightOptions);
+		drones.emit("data", {flightOptions: drone.flightOptions});
 	});
 	socket.on("longer", function() {
 		drone.longer();
 		drones.emit("command", "longer received");
-		drones.emit("data", drone.flightOptions);
+		drones.emit("data", {flightOptions: drone.flightOptions});
 	});
 	socket.on("shorter", function() {
 		drone.shorter();
 		drones.emit("command", "shorter received");
-		drones.emit("data", drone.flightOptions);
+		drones.emit("data", {flightOptions: drone.flightOptions});
 	});
 	socket.on("turnRight", function() {
 		drone.turnRight();

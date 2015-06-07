@@ -7,6 +7,7 @@ class DroneStore {
     this.flightOptions = {};
     this.status = {};
     this.uuid = "";
+    this.signalStrength = 0;
 
     this.bindListeners({
       handleUpdateCommands: DroneActions.UPDATE_COMMANDS,
@@ -27,6 +28,9 @@ class DroneStore {
     }
     if(data.status) {
       this.status = data.status;
+    }
+    if(data.signalStrength) {
+      this.signalStrength = data.signalStrength;
     }
   }
 }
