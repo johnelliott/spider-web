@@ -41,9 +41,34 @@ drones.on("connection", function(socket){
 	drone.connect();
 	drone.signal();
 
+	// provide feedback to the front-end that commands came in
 	socket.on("fly", function() {
 		drone.fly();
 		drones.emit("command", "fly received");
+	});
+	socket.on("faster", function() {
+		drone.faster();
+		drones.emit("command", "faster received");
+	});
+	socket.on("slower", function() {
+		drone.slower();
+		drones.emit("command", "slower received");
+	});
+	socket.on("longer", function() {
+		drone.longer();
+		drones.emit("command", "longer received");
+	});
+	socket.on("shorter", function() {
+		drone.shorter();
+		drones.emit("command", "shorter received");
+	});
+	socket.on("turnRight", function() {
+		drone.turnRight();
+		drones.emit("command", "turnRight received");
+	});
+	socket.on("turnLeft", function() {
+		drone.turnLeft();
+		drones.emit("command", "turnLeft received");
 	});
 	socket.on("up", function() {
 		drone.up();
@@ -68,6 +93,10 @@ drones.on("connection", function(socket){
 	socket.on("right", function() {
 		drone.right();
 		drones.emit("command", "right received");
+	});
+	socket.on("flip", function() {
+		drone.flip();
+		drones.emit("command", "flip received");
 	});
 });
 
