@@ -33,25 +33,43 @@ app.socketServer = new SocketServer(app);
 var drones = app.socketServer.of("/drones");
 drones.on("connection", function(socket){
 	console.log("something connected to /drones");
+
+	// create/connect to drone
 	var drone = new Drone(droneUUID);
+	var droneSignalPoller;
+
+	socket.on("disconnect", function(){
+		console.log("socket disconnect");
+		// kill the signal polling timer on drone disconnect
+		clearInterval(droneSignalPoller);
+		drone.land(function() {
+			console.log("client disconnected, drone landed and about to disconnect");
+			drone.disconnect();
+		});
+	});
+
+	drone.connect();
 	// poll drone every few seconds and send signal updates
-	var droneSignalPoller = setInterval(drone.signalStrength, 7*1000, function(err, rssi) {
+	droneSignalPoller = setInterval(drone
+		.signalStrength, 7 * 1000, function(err, rssi) {
 		if(err) {
 			return err;
 		}
 		// emit drone data update on the callback exec
 		else {
-			console.log("polled RSSI about to emit", rssi);
+			// console.log("signal", rssi);
 			drones.emit("data", {signalStrength: rssi});
 		}
 	});
-	socket.on("disconnect", function(){
-		console.log("socket disconnect");
-		// kill the signal polling timer on drone disconnect
-		clearInterval(droneSignalPoller);
-		drone.land();
+	// allow the drone to send battery updates
+	drone.addBatteryEmitter(function(){
+		drones.emit("data", {batteryStatus: drone.status.battery});
 	});
-	drone.connect();
+	// allow the drone to send status updates
+	drone.addStatusEmitter(function(){
+		drones.emit("data", {status: drone.status});
+	});
+	// send initial state to the server
 	drones.emit("data", {
 		// TODO: get UUID from an actual drone rather than what we use to
 		// connect to is
@@ -59,68 +77,67 @@ drones.on("connection", function(socket){
 		status: drone.status,
 		flightOptions: drone.flightOptions
 	});
-	console.log('drone status', drone.status)
 
 	// provide feedback to the front-end that commands came in
 	socket.on("fly", function() {
 		drone.fly();
-		drones.emit("command", "fly received");
+		drones.emit("command", "fly");
 	});
 	socket.on("faster", function() {
 		drone.faster();
-		drones.emit("command", "faster received");
+		drones.emit("command", "faster");
 		drones.emit("data", {flightOptions: drone.flightOptions});
 	});
 	socket.on("slower", function() {
 		drone.slower();
-		drones.emit("command", "slower received");
+		drones.emit("command", "slower");
 		drones.emit("data", {flightOptions: drone.flightOptions});
 	});
 	socket.on("longer", function() {
 		drone.longer();
-		drones.emit("command", "longer received");
+		drones.emit("command", "longer");
 		drones.emit("data", {flightOptions: drone.flightOptions});
 	});
 	socket.on("shorter", function() {
 		drone.shorter();
-		drones.emit("command", "shorter received");
+		drones.emit("command", "shorter");
 		drones.emit("data", {flightOptions: drone.flightOptions});
 	});
 	socket.on("turnRight", function() {
 		drone.turnRight();
-		drones.emit("command", "turnRight received");
+		drones.emit("command", "turnRight");
 	});
 	socket.on("turnLeft", function() {
 		drone.turnLeft();
-		drones.emit("command", "turnLeft received");
+		drones.emit("command", "turnLeft");
 	});
 	socket.on("up", function() {
 		drone.up();
-		drones.emit("command", "up received");
+		drones.emit("command", "up");
 	});
 	socket.on("down", function() {
 		drone.down();
-		drones.emit("command", "down received");
+		drones.emit("command", "down");
 	});
 	socket.on("forward", function() {
 		drone.forward();
-		drones.emit("command", "forward received");
+		drones.emit("command", "forward");
 	});
 	socket.on("back", function() {
 		drone.back();
-		drones.emit("command", "back received");
+		drones.emit("command", "back");
 	});
 	socket.on("left", function() {
 		drone.left();
-		drones.emit("command", "left received");
+		drones.emit("command", "left");
 	});
 	socket.on("right", function() {
 		drone.right();
-		drones.emit("command", "right received");
+		drones.emit("command", "right");
 	});
 	socket.on("flip", function() {
 		drone.flip();
-		drones.emit("command", "flip received");
+		drones.emit("command", "flip");
 	});
 });
 

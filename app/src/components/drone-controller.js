@@ -73,7 +73,7 @@ export default class DroneController extends React.Component {
 				<DroneCommandView message="commands"
 					commands={this.state.commands.slice(-7)} />
 				<DroneControlBar
-					title={"Battery " + this.state.status.battery
+					title={"Battery " + this.state.batteryStatus
 					+ "%  Signal " + this.state.signalStrength + "dB"}
 					flying={this.state.status.flying}
 					speed={this.state.flightOptions.speed}
