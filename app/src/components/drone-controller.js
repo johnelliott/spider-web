@@ -25,7 +25,6 @@ export default class DroneController extends React.Component {
 	}
 	onChange(state) {
 		this.setState(state);
-		console.log("flux state:", this.state)
 	}
 	componentDidMount() {
 		console.log("hello componentDidMount");
@@ -71,7 +70,7 @@ export default class DroneController extends React.Component {
 			<div>
 				<DroneInfoBar title={this.state.uuid} />
 				<DroneCommandView message="commands"
-					commands={this.state.commands.slice(-7)} />
+					commands={this.state.commands} />
 				<DroneControlBar
 					title={"Battery " + this.state.batteryStatus
 					+ "%  Signal " + this.state.signalStrength + "dB"}

@@ -13,12 +13,12 @@ export default class DroneControlBar extends React.Component {
                     <ToolbarTitle text={this.props.title} />
                 </ToolbarGroup>
                 <ToolbarGroup key={1} float="right">
-                    <RaisedButton
-                        label={this.props.flying === true ? "Land now" : "Not Flying"}
-                        disabled={!this.props.flying}
-                        primary={this.props.flying} />
                     <FlightSettingIndicator percentage={this.props.speed} size={0.5} />
                     <FlightSettingIndicator percentage={this.props.steps} size={0.5} />
+                    <RaisedButton
+                        label={this.props.flying === true ? "Land now" : "Not Flying"}
+                        disabled={this.props.flying === false}
+                        primary={this.props.flying === true} />
                 </ToolbarGroup>
             </Toolbar>
         );
