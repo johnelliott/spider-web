@@ -1,7 +1,7 @@
 // guide
 module.exports = [
     // speed and distance
-    {key: "+", command: "faster"},
+    {key: "=", command: "faster"},
     {key: "-", command: "slower"},
     {key: "]", command: "longer"},
     {key: "[", command: "shorter"},

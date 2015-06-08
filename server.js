@@ -80,7 +80,9 @@ drones.on("connection", function(socket){
 
 	// provide feedback to the front-end that commands came in
 	socket.on("fly", function() {
-		drone.fly();
+		drone.fly(function(statusData) {
+			drones.emit("data", {status: statusData});
+		});
 		drones.emit("command", "fly");
 	});
 	socket.on("faster", function() {

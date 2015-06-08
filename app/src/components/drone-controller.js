@@ -1,6 +1,6 @@
 var io = require("socket.io-client/socket.io");
 var Keypress = require("keypress.js");
-var controls = require("../keyboard-controls.js");
+var controls = require("../keyboard-controls");
 var DroneStore = require("../stores/store");
 var DroneActions = require("../actions/drone-actions");
 
@@ -43,7 +43,9 @@ export default class DroneController extends React.Component {
 				};
 			});
 			// create keyboard and listen to keystrokes
-			new Keypress.Listener().register_many(keyboardRegistrationMap).listen();
+			var keyboard = new Keypress.Listener();
+			keyboard.register_many(keyboardRegistrationMap);
+			keyboard.listen();
 		});
 		socket.on("command", function(data) {
 			DroneActions.updateCommands(data);
