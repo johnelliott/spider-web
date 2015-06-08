@@ -1,5 +1,6 @@
 var io = require("socket.io-client/socket.io");
 var Keypress = require("keypress.js");
+var controls = require("../keyMap.js");
 var DroneStore = require("../stores/store");
 var DroneActions = require("../actions/drone-actions");
 
@@ -27,32 +28,20 @@ export default class DroneController extends React.Component {
 		this.setState(state);
 	}
 	componentDidMount() {
-		console.log("hello componentDidMount");
 		DroneStore.listen(this.onChange);
 		var socket = io("http://localhost:3000/drones");
 		socket.on("connect", function() {
-			this.keyboard = new Keypress.Listener();
-			this.keyboard.register_many([
-				{keys: "=", on_keyup: function() {socket.emit("faster")}},
-				{keys: "-", on_keyup: function() {socket.emit("slower")}},
-				{keys: "]", on_keyup: function() {socket.emit("longer")}},
-				{keys: "[", on_keyup: function() {socket.emit("shorter")}},
-
-				{keys: "j", on_keyup: function() {socket.emit("down")}},
-				{keys: "k", on_keyup: function() {socket.emit("up")}},
-
-				{keys: "h", on_keyup: function() {socket.emit("turnLeft")}},
-				{keys: "l", on_keyup: function() {socket.emit("turnRight")}},
-
-				{keys: "w", on_keyup: function() {socket.emit("forward")}},
-				{keys: "s", on_keyup: function() {socket.emit("back")}},
-				{keys: "a", on_keyup: function() {socket.emit("left")}},
-				{keys: "d", on_keyup: function() {socket.emit("right")}},
-
-				{keys: "f", on_keyup: function() {socket.emit("fly")}},
-				{keys: "g", on_keyup: function() {socket.emit("flip")}}
-			]);
-			this.keyboard.listen();
+			// make keyboard mapping from human-readable map file
+			var keyboardRegistrationMap = controls.map(function(mapping){
+				return {
+					keys: mapping.key,
+					on_keyup: function() {
+						socket.emit(mapping.command);
+					}
+				};
+			});
+			// create keyboard and listen to keystrokes
+			new Keypress.Listener().register_many(keyboardRegistrationMap).listen();
 		});
 		socket.on("command", function(data) {
 			DroneActions.updateCommands(data);
