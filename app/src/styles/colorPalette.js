@@ -4,9 +4,9 @@ module.exports = {
 	primary3Color: "#CB5599",
 	accent1Color: "#49C6B7",
 	accent2Color: "#49C6B7",
-	accent3Color: "#49C6B7",
-	textColor: "#494949",
-	canvasColor: "#494949",
-	borderColor: "#49C6B7",
+	accent3Color: "#EA8D63",
+	textColor: "#383F45",
+	canvasColor: "#49C6B7",
+	borderColor: "#494949",
 	disabledColor: "#EAEDEF"
 };
