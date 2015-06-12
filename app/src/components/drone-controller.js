@@ -11,7 +11,6 @@ var StPalette = require("../styles/colorPalette");
 var AppBar = require("material-ui").AppBar;
 var DroneInfoBar = require("../components/drone-info-bar");
 var DroneCommandView = require("../components/drone-command-view");
-var DroneKeysList = require("../components/drone-keys-list");
 var DroneControlBar = require("../components/drone-control-bar");
 
 export default class DroneController extends React.Component {
@@ -75,7 +74,6 @@ export default class DroneController extends React.Component {
 					flying={this.state.status.flying}
 					speed={this.state.flightOptions.speed}
 					steps={this.state.flightOptions.steps} />
-				<DroneKeysList message="keys" />
 			</div>
 		);
 	}

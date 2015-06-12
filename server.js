@@ -69,7 +69,7 @@ drones.on("connection", function(socket){
 	drone.addStatusEmitter(function(){
 		drones.emit("data", {status: drone.status});
 	});
-	// send initial state to the server
+	// send initial state to the client
 	drones.emit("data", {
 		// TODO: get UUID from an actual drone rather than what we use to
 		// connect to is
