@@ -32,28 +32,29 @@ export default class DroneController extends React.Component {
 	}
 	componentDidMount() {
 		DroneStore.listen(this.onChange);
+
+		// connect to server
 		var socket = io("http://localhost:3000/drones");
-		socket.on("connect", function() {
-			// make keyboard mapping from human-readable map file
-			var keyboardRegistrationMap = controls.map(function(mapping){
-				return {
-					keys: mapping.key,
-					on_keyup: function() {
-						socket.emit(mapping.command);
-					}
-				};
-			});
-			// create keyboard and listen to keystrokes
-			var keyboard = new Keypress.Listener();
-			keyboard.register_many(keyboardRegistrationMap);
-			keyboard.listen();
-		});
 		socket.on("command", function(data) {
 			DroneActions.updateCommands(data);
 		});
 		socket.on("data", function(data) {
 			DroneActions.updateDroneData(data);
 		});
+
+		// make keyboard mapping from human-readable map file
+		var keyboardRegistrationMap = controls.map(function(mapping){
+			return {
+				keys: mapping.key,
+				on_keyup: function() {
+					socket.emit(mapping.command);
+				}
+			};
+		});
+		// create keyboard and listen to keystrokes
+		var keyboard = new Keypress.Listener();
+		keyboard.register_many(keyboardRegistrationMap);
+		keyboard.listen();
 	}
 	componentWillMount() {
 		ThemeManager.setPalette(StPalette);
