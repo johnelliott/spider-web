@@ -19,6 +19,7 @@ export default class DroneControlBar extends React.Component {
 					<FlightSettingIndicator percentage={this.props.steps} size={0.2} />
 					<RaisedButton
 						label={this.props.flying === true ? "Land now" : "Not Flying"}
+						onClick={this.props.landButtonHandler}
 						disabled={!this.props.flying}
 						secondary={true} />
 				</ToolbarGroup>

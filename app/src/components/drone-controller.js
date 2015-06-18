@@ -29,31 +29,41 @@ export default class DroneController extends React.Component {
 	onChange(state) {
 		this.setState(state);
 	}
+	handleLandButtonClick() {
+		this.socket.emit("land");
+	};
 	componentDidMount() {
 		DroneStore.listen(this.onChange);
 
-		// connect to server
-		var socket = io("http://localhost:3000/drones");
-		socket.on("command", function(data) {
-			DroneActions.updateCommands(data);
-		});
-		socket.on("data", function(data) {
-			DroneActions.updateDroneData(data);
-		});
-
 		// make keyboard mapping from human-readable map file
-		var keyboardRegistrationMap = controls.map(function(mapping){
+		var keyboardRegistrationMap = controls.map((mapping) => {
 			return {
 				keys: mapping.key,
-				on_keyup: function() {
-					socket.emit(mapping.command);
-				}
+				on_keyup: () => {
+					this.socket.emit(mapping.command);
+				 }
 			};
 		});
-		// create keyboard and listen to keystrokes
 		var keyboard = new Keypress.Listener();
 		keyboard.register_many(keyboardRegistrationMap);
-		keyboard.listen();
+
+		// connect to sockets server, then listen for keyboard input
+		this.socket = io("http://localhost:3000/drones");
+		this.socket.on("connect", () => {
+			// listen to keystrokes only when we can get feedback from the server
+			keyboard.listen();
+		});
+		this.socket.on("disconnect", () => {
+			// stop listening to keystrokes if the server restarts
+			// and we are still here
+			keyboard.stop_listening();
+		});
+		this.socket.on("command", function(data) {
+			DroneActions.updateCommands(data);
+		});
+		this.socket.on("data", function(data) {
+			DroneActions.updateDroneData(data);
+		});
 	}
 	componentWillMount() {
 		ThemeManager.setPalette(StPalette);
@@ -73,7 +83,8 @@ export default class DroneController extends React.Component {
 					signal={this.state.signalStrength}
 					flying={this.state.status.flying}
 					speed={this.state.flightOptions.speed}
-					steps={this.state.flightOptions.steps} />
+					steps={this.state.flightOptions.steps}
+					landButtonHandler={this.handleLandButtonClick.bind(this)} />
 			</div>
 		);
 	}
@@ -83,3 +94,4 @@ export default class DroneController extends React.Component {
 DroneController.childContextTypes = {
   muiTheme: React.PropTypes.object
 };
+
