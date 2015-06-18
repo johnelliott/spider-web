@@ -85,6 +85,12 @@ drones.on("connection", function(socket){
 		});
 		drones.emit("command", "fly");
 	});
+	socket.on("land", function() {
+		drone.land(function(statusData) {
+			drones.emit("data", {status: statusData});
+		});
+		drones.emit("command", "land");
+	});
 	socket.on("faster", function() {
 		drone.faster();
 		drones.emit("command", "faster");
