@@ -1,42 +1,34 @@
-
 {
-    env: {
-        node: true,
-        mocha: true,
-        es6: true
+    "env": {
+        "node": true,
+        "mocha": true,
+        "es6": true
     },
-    globals: {
-        require: true,
-        "React": true
+    "globals": {
+        "require": true
     },
-    rules: {
-        brace-style: [2, stroustrup, { allowSingleLine: false }],
-        default-case: true,
-        indent: [2, tab, {indentSwitchCase: true}],
-        no-catch-shadow: true,
-        no-eq-null: true,
-        no-floating-decimal: true,
-        no-inline-comments: true,
-        no-nested-ternary: true,
-        no-param-reassign: true,
-        no-reserved-keys: true,
-        no-self-compare: true,
-        no-throw-literal: true,
-        no-undefined: true,
-        no-void: true,
-        quotes: [1, double],
-        space-after-keywords: always,
-        space-after-blocks: always,
-        strict: [2, never],
-        wrap-iife: [2, outside]
-    },
-    "ecmaFeatures": {
-        "modules": true,
-        "blockBindings": true,
-        "forOf": true,
-        "jsx": true
+    "rules": {
+        "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
+        "default-case": 2,
+        "indent": [2, "space", {"indentSwitchCase": true}],
+        "no-catch-shadow": 2,
+        "no-eq-null": 2,
+        "no-floating-decimal": 2,
+        "no-inline-comments": 2,
+        "no-nested-ternary": 2,
+        "no-param-reassign": 2,
+        "no-reserved-keys": 2,
+        "no-self-compare": 2,
+        "no-throw-literal": 2,
+        "no-undefined": 2,
+        "no-void": 2,
+        "quotes": [1, "double"],
+        "space-after-keywords": [2, "always"],
+        "space-after-blocks": [2, "always"],
+        "strict": [2, "never"],
+        "wrap-iife": [2, "outside"]
     },
     "plugins": [
-        "react"
+
     ]
 }
