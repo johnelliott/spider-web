@@ -2,13 +2,6 @@ var request = require("request");
 var should = require("should");
 require("./index");
 
-describe("Serial", function() {
-	var serial = require("../lib/serial");
-	it("should return a function", function() {
-		serial.should.be.type("function");
-	});
-});
-
 describe("Server", function() {
 	var server = require("../server.js");
 	it("should respond to http GET requests", function(done) {
