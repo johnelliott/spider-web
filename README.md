@@ -1,19 +1,35 @@
-Waybot-node ([blog](http://waybot.tumblr.com/))
+Spider-web
 ===========
 
-A fun way to count bicycle traffic using Arduino, Raspberry Pi, and the web.
-
-Follow along at [http://waybot.tumblr.com/](http://waybot.tumblr.com/).
+A fun way to fly rolling spider from your laptop.
 
 
-Add an optional API to [Waybot](https://github.com/johnelliott/Waybot) counters with Node, Express, and Sockets
 
 - get this repository on your local machine
 - npm install
-- set a serial port in config.js
-- connect Waybot Counter or serial data source sending strings like this: {"time":472,"speed":15}
-- start app.js by typing '$ node app'
+- npm run build
+- turn on drone
+- npm start
+- load localhost:8000 on your laptop
 
-If desired, run '$ node talker.js' to mock a counter spitting out fake data.
+Controls: https://github.com/johnelliott/spider-web/blob/master/app/src/keyboard-controls.js
 
-If you want help setting up something similar, create an [issue](https://github.com/johnelliott/Waybot/issues) and I will get in touch.
+    {key: "=", command: "faster"},
+    {key: "-", command: "slower"},
+    {key: "]", command: "longer"},
+    {key: "[", command: "shorter"},
+    // altitude
+    {key: "j", command: "down"},
+    {key: "k", command: "up"},
+    // turning
+    {key: "h", command: "turnLeft"},
+    {key: "l", command: "turnRight"},
+    // moving around
+    {key: "w", command: "forward"},
+    {key: "s", command: "back"},
+    {key: "a", command: "left"},
+    {key: "d", command: "right"},
+    // fly/land
+    {key: "f", command: "fly"},
+    // Tricks :)
+    {key: "g", command: "flip"}
