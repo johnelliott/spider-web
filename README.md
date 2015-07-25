@@ -1,5 +1,6 @@
 Spider-web
 ===========
+![alt tag](https://cloud.githubusercontent.com/assets/5633265/8890663/0db4be16-32d7-11e5-80a6-4973150f5a1b.png)
 
 A fun way to fly rolling spider from your laptop.
 
